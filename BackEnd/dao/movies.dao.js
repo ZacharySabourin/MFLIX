@@ -23,62 +23,45 @@ export default class MoviesDAO
     static async getMovies({ filters = null, page = 0, moviesPerPage = 20 } = {})
     {      
         const query = buildMovieQuery(filters);        
-        const cursor = buildMovieCursor(query);        
+        const cursor = await buildMovieCursor(query);        
         const displayCursor = cursor.limit(moviesPerPage).skip(moviesPerPage * page);
         
-        return { movieList: buildMovieList(displayCursor), totalNumMovies: getNumMovies(query) };
+        return { 
+            movieList: buildMovieList(displayCursor), 
+            totalNumMovies: getTotalNumMovies(query) 
+        };
+    }
+
+    static async getMovieById(id)
+    {
+        let movie = {};
+
+        try
+        {
+            movie = await movies.find({ _id: new ObjectID(id) });
+        }
+        catch(e)
+        {
+            console.error('Something went wrong in getMovieByID: ' + e);      
+        }  
+
+        return movie;
     }
 }
 
-const getNumMovies = query => {
-
-    const totalNumMovies = 0;
-
-    try 
-    {
-        totalNumMovies = movies.countDocuments(query);
-    } 
-    catch (e) 
-    {
-        console.error('Problem counting documents, ' + e);      
-    }
-
-    return totalNumMovies;
-};
-
-const buildMovieList = displayCursor => {
-
-    const movieList = [];
-
-    try
-    {
-        movieList = displayCursor.toArray();
-    }
-    catch(e)
-    {
-        console.error('Unable to convert cursor to array, ' + e);
-    }
-
-    return movieList = displayCursor.toArray();
-};
-
-
 const buildMovieQuery = filters => {
+
     let query = {};
 
-    if(filters) 
-    {
-        if ('title' in filters)
-            query = { $text: { $search: filters.title }};
-        else if ('year' in filters)
-            query = { 'year': { $eq: filters.year }};
-    }
+    if ('title' in filters)
+        query = { $text: { $search: filters.title }};
+    else if ('year' in filters)
+        query = { 'year': { $eq: filters.year }};
 
     return query;
 };
 
-const buildMovieCursor = query => {
-    
+const buildMovieCursor = async (query) => {    
     let cursor = {};
 
     try
@@ -92,4 +75,36 @@ const buildMovieCursor = query => {
     }
 
     return cursor;
+};
+
+const buildMovieList = displayCursor => {
+
+    let movieList = [];
+
+    try
+    {
+        movieList = displayCursor.toArray();
+    }
+    catch(e)
+    {
+        console.error('Unable to convert cursor to array, ' + e);
+    }
+
+    return movieList;
+};
+
+const getTotalNumMovies = query => {
+
+    let totalNumMovies = 0;
+
+    try 
+    {
+        totalNumMovies = movies.countDocuments(query);
+    } 
+    catch (e) 
+    {
+        console.error('Problem counting documents, ' + e);      
+    }
+
+    return totalNumMovies;
 };

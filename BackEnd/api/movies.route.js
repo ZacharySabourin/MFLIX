@@ -7,4 +7,8 @@ router
     .route('/')
     .get(MoviesCtrl.getMovies);
 
+router
+    .route('/id/:id')
+    .get(MoviesCtrl.getMovieById);
+
 export default router;
