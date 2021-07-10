@@ -1,4 +1,4 @@
-import MoviesDAO from '../../dao/movies.dao.js';
+import MoviesDAO from '../dao/movies.dao.js';
 
 export default class MoviesController
 {
@@ -8,7 +8,7 @@ export default class MoviesController
         {
             const filters = buildMovieFilters(req.query);
             const page = req.query.page ? parseInt(req.query.page, 10) : 0;
-            const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviewPerPage) : 20;
+            const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviesPerPage) : 20;
 
             const { movieList, totalNumMovies } = await MoviesDAO.getMovies({ filters, page, moviesPerPage });
 

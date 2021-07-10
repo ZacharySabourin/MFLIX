@@ -38,7 +38,7 @@ export default class MoviesDAO
 
         try
         {
-            movie = await movies.find({ _id: new ObjectID(id) });
+            movie = await movies.findOne({ _id: new ObjectID(id) });
         }
         catch(e)
         {
