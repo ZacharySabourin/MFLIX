@@ -4,27 +4,24 @@ export default class MoviesController
 {
     static async getMovies(req, res, next)
     {   
-        try
-        {
-            const filters = buildMovieFilters(req.query);
-            const page = req.query.page ? parseInt(req.query.page, 10) : 0;
-            const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviesPerPage) : 20;
+        const filters = buildMovieFilters(req.query);
+        const page = req.query.page ? parseInt(req.query.page, 10) : 0;
+        const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviesPerPage) : 20;
 
-            const { movieList, totalNumMovies } = await MoviesDAO.getMovies({ filters, page, moviesPerPage });
-
+        MoviesDAO.getMovies({ filters, page, moviesPerPage })
+        .then(result => {
             res.json({
-                movies: movieList,
+                movies: result.movieList,
                 page: page,
                 filters: filters,
                 entries_per_page: moviesPerPage,
-                total_results: totalNumMovies
-            });       
-        }
-        catch(e)
-        {
-            console.error('getMovies: ' + e);
-            res.status(500).json({ error: e });
-        }      
+                total_results: result.totalNumMovies
+            });
+        })
+        .catch(err => {
+            console.error('getMovies: ' + err);
+            res.status(500).json({ error: err });
+        });    
     }
 
     static async getMovieById(req, res, next)
@@ -39,8 +36,8 @@ export default class MoviesController
                 res.json(movie);
         })
         .catch(err => {
-            console.error('getMovieById: ' + e);
-            res.status(500).json({ error: e });
+            console.error('getMovieById: ' + err);
+            res.status(500).json({ error: err });
         });
     }
 }
