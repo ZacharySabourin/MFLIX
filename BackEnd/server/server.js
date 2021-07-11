@@ -12,4 +12,13 @@ app.use(helmet());
 app.use('/api/v1/movies', movieRoutes);
 app.use('*', (req,res) => res.status(404).json({ error: 'Page not found' }));
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    next(err)
+});
+
+app.use((err, req, res, next) => {
+    res.status(500).sent('Something Broke!');
+});
+
 export default app;

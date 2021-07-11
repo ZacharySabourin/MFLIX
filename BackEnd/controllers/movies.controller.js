@@ -18,10 +18,7 @@ export default class MoviesController
                 total_results: result.totalNumMovies
             });
         })
-        .catch(err => {
-            console.error('getMovies: ' + err);
-            res.status(500).json({ error: err });
-        });    
+        .catch(next);    
     }
 
     static async getMovieById(req, res, next)
@@ -35,10 +32,7 @@ export default class MoviesController
             else
                 res.json(movie);
         })
-        .catch(err => {
-            console.error('getMovieById: ' + err);
-            res.status(500).json({ error: err });
-        });
+        .catch(next);
     }
 }
 

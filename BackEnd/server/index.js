@@ -8,7 +8,7 @@ const MongoClient = mongodb.MongoClient;
 const port = process.env.PORT || 5000;
 
 MongoClient.connect(
-    process.env.CLUSTER_URI,
+    process.env.DB_URI,
     {
         writeConcern: {
             wtimeout: 2500
