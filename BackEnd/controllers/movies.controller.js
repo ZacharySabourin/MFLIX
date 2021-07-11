@@ -3,7 +3,7 @@ import MoviesDAO from '../dao/movies.dao.js';
 export default class MoviesController
 {
     static async getMovies(req, res, next)
-    {       
+    {   
         try
         {
             const filters = buildMovieFilters(req.query);
@@ -29,21 +29,19 @@ export default class MoviesController
 
     static async getMovieById(req, res, next)
     {
-        try
-        {
-            const { id } = req.params || {};
-            const movie = await MoviesDAO.getMovieById(id);
+        const { id } = req.params || {};
 
+        MoviesDAO.getMovieById(id)
+        .then(movie => {
             if(!movie)
                 res.status(404).json({ error: 'Not Found' });
             else
                 res.json(movie);
-        }
-        catch (e)
-        {
+        })
+        .catch(err => {
             console.error('getMovieById: ' + e);
             res.status(500).json({ error: e });
-        }
+        });
     }
 }
 

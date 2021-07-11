@@ -22,6 +22,7 @@ export default class MoviesDAO
 
     static async getMovies({ filters = null, page = 0, moviesPerPage = 20 } = {})
     {      
+        
         const query = buildMovieQuery(filters);        
         const cursor = await buildMovieCursor(query);        
         const displayCursor = cursor.limit(moviesPerPage).skip(moviesPerPage * page);
