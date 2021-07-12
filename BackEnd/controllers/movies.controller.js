@@ -4,17 +4,15 @@ export default class MoviesController
 {
     static async getMovies(req, res, next)
     {   
-        const filters = buildMovieFilters(req.query);
-        const page = req.query.page ? parseInt(req.query.page, 10) : 0;
-        const moviesPerPage = req.query.moviesPerPage ? parseInt(req.query.moviesPerPage) : 20;
+        const queryParams = extractQueryParams(req.query);
 
-        MoviesDAO.getMovies({ filters, page, moviesPerPage })
+        MoviesDAO.getMovies(queryParams)
         .then(result => {
             res.json({
                 movies: result.movieList,
-                page: page,
-                filters: filters,
-                entries_per_page: moviesPerPage,
+                page: queryParams.page,
+                filters: queryParams.filters,
+                entries_per_page: queryParams.moviesPerPage,
                 total_results: result.totalNumMovies
             });
         })
@@ -35,6 +33,14 @@ export default class MoviesController
         .catch(next);
     }
 }
+
+const extractQueryParams = query => {
+    const filters = buildMovieFilters(query);  
+    const moviesPerPage = query.moviesPerPage ? parseInt(query.moviesPerPage, 10) : 20;
+    const page = query.page ? parseInt(query.page, 10) : 0;
+
+    return { filters, moviesPerPage, page };
+};
 
 const buildMovieFilters = query => {
     let filters = {};

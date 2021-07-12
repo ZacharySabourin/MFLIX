@@ -18,7 +18,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    res.status(500).sent('Something Broke!');
+    res.status(500).send('Something Broke!');
 });
 
 export default app;
