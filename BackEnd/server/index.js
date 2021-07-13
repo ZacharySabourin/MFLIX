@@ -2,6 +2,7 @@ import mongodb from 'mongodb';
 import dotenv from 'dotenv';
 import app from './server.js';
 import MoviesDAO from '../dao/movies.dao.js';
+import TheatersDAO from '../dao/theaters.dao.js';
 
 dotenv.config();
 const MongoClient = mongodb.MongoClient;
@@ -21,6 +22,7 @@ MongoClient.connect(
     })
     .then(async client => {
         await MoviesDAO.injectDB(client);
+        await TheatersDAO.injectDB(client);
 
         app.listen(port, () => { console.log('listening on port ' + port) });
     });

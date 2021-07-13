@@ -4,7 +4,7 @@ export default class MoviesController
 {
     static async getMovies(req, res, next)
     {   
-        const queryParams = extractQueryParams(req.query);
+        const queryParams = extractParams(req.query);
 
         MoviesDAO.getMovies(queryParams)
         .then(result => {
@@ -34,11 +34,12 @@ export default class MoviesController
     }
 }
 
-const extractQueryParams = query => {
+const extractParams = query => {
+
     const filters = buildMovieFilters(query);  
     const moviesPerPage = query.moviesPerPage ? parseInt(query.moviesPerPage, 10) : 20;
     const page = query.page ? parseInt(query.page, 10) : 0;
-
+    
     return { filters, moviesPerPage, page };
 };
 
