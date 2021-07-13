@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import TheatersCtrl from '../controllers/theaters.controller.js';
+import TheatersCtrl from '../controllers/theaters.controller.mjs';
 
 const router = Router();
 

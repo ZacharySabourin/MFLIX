@@ -1,5 +1,5 @@
-import MoviesDAO from '../../dao/movies.dao.js';
-import extractParams from '../util/param.extractor.js';
+import MoviesDAO from '../../database/dao/movies.dao.mjs';
+import extractParams from '../util/param.extractor.mjs';
 
 export default class MoviesController
 {

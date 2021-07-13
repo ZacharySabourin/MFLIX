@@ -1,5 +1,5 @@
-import TheatersDAO from '../../dao/theaters.dao.js';
-import extractParams from '../util/param.extractor.js';
+import TheatersDAO from '../../database/dao/theaters.dao.mjs';
+import extractParams from '../util/param.extractor.mjs';
 
 export default class TheatersController
 {
