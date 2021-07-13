@@ -21,7 +21,16 @@ export default class TheatersController
 
     static async getTheaterByID(req, res, next)
     {
+        const id = parseInt(req.params.id, 10) || {};
 
+        TheatersDAO.getTheaterById(id)
+        .then(theater => {
+            if(!theater)
+                res.status(404).json({ error: 'Not Found' });
+            else
+                res.json(theater);
+        })
+        .catch(next);
     }
 }
 

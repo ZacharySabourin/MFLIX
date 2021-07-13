@@ -40,6 +40,18 @@ export default class TheatersDAO
             throw err;
         }
     }
+
+    static async getTheaterById(id)
+    {
+        try
+        {
+            return await theaters.findOne({ theaterId: id});
+        }
+        catch(err)
+        {
+            throw err;
+        }
+    }
 }
 
 const buildTheaterQuery = filters => {
