@@ -29,10 +29,11 @@ export default class MoviesDAO
             const displayCursor = cursor.limit(moviesPerPage).skip(moviesPerPage * page);
 
             const list = await displayCursor.toArray();
-
+            const count = await cursor.count();
+            
             return {
                 movieList: list,
-                totalNumMovies: cursor.count()
+                totalNumMovies: count
             };
         }
         catch(err)
@@ -60,8 +61,8 @@ const buildMovieQuery = filters => {
 
     if (filters.year)
         query.year = filters.year;
-    if (filters.title)
-        query['$text'] = { $search: filters.title };
+    if (filters.text)
+        query['$text'] = { $search: filters.text };
 
     return query;
 };

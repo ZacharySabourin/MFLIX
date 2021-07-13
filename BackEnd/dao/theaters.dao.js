@@ -29,10 +29,11 @@ export default class TheatersDAO
             const displayCursor = cursor.limit(theatersPerPage).skip(theatersPerPage * page);
 
             const list = await displayCursor.toArray();
+            const count = await cursor.count();
 
             return {
                 theaterList: list,
-                totalNumTheaters: cursor.count()
+                totalNumTheaters: count
             };
         }
         catch(err)
@@ -45,7 +46,7 @@ export default class TheatersDAO
     {
         try
         {
-            return await theaters.findOne({ theaterId: id});
+            return await theaters.findOne({ _id: new ObjectID(id) });
         }
         catch(err)
         {
@@ -59,7 +60,9 @@ const buildTheaterQuery = filters => {
     let query = {};
 
     if (filters.city)
-        query = { 'location.address.city': filters.city };
+        query['location.address.city'] = filters.city;
+    if(filters.state)
+        query['location.address.state'] = filters.state;
 
     return query;
 };

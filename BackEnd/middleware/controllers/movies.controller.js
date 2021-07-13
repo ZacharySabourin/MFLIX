@@ -1,4 +1,4 @@
-import MoviesDAO from '../dao/movies.dao.js';
+import MoviesDAO from '../../dao/movies.dao.js';
 
 export default class MoviesController
 {
@@ -46,8 +46,8 @@ const extractParams = query => {
 const buildMovieFilters = query => {
     let filters = {};
 
-    if(query.title)
-        filters.title = query.title;
+    if(query.text)
+        filters.text = query.text;
     if(query.year)
         filters.year = parseInt(query.year, 10);
 

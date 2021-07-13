@@ -1,8 +1,8 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import movieRoutes from '../routes/movies.route.js';
-import theaterRoutes from '../routes/theaters.route.js';
+import movieRoutes from '../middleware/routes/movies.route.js';
+import theaterRoutes from '../middleware/routes/theaters.route.js';
 
 const app = express();
 

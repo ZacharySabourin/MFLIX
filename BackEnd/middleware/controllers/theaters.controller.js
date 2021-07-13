@@ -1,4 +1,4 @@
-import TheatersDAO from '../dao/theaters.dao.js';
+import TheatersDAO from '../../dao/theaters.dao.js';
 
 export default class TheatersController
 {
@@ -47,6 +47,8 @@ const buildTheaterFilters = query => {
 
     if(query.city)
         filters.city = query.city;
+    if(query.state)
+        filters.state = query.state;
         
     return filters;
 };
