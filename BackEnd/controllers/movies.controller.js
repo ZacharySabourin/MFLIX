@@ -47,8 +47,8 @@ const buildMovieFilters = query => {
 
     if(query.title)
         filters.title = query.title;
-    else if(query.year)
-        filters.year = query.year;
+    if(query.year)
+        filters.year = parseInt(query.year, 10);
 
     return filters;
 };

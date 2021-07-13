@@ -16,7 +16,7 @@ export default class MoviesDAO
         }
         catch(err)
         {
-            console.error('Unable to establish a collection handle in movies.dao: ' + err);
+            throw err;
         }
     }
 
@@ -58,10 +58,10 @@ const buildMovieQuery = filters => {
 
     let query = {};
 
-    if ('title' in filters)
-        query = { $text: { $search: filters.title }};
-    else if ('year' in filters)
-        query = { 'year': { $eq: filters.year }};
+    if (filters.year)
+        query.year = filters.year;
+    if (filters.title)
+        query['$text'] = { $search: filters.title };
 
     return query;
 };
