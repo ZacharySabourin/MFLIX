@@ -20,13 +20,13 @@ export default class MoviesDAO
         }
     }
 
-    static async getMovies({ filters = null, page = 0, moviesPerPage = 20 } = {})
+    static async getMovies({ filters = null, page = 0, entriesPerPage = 20 } = {})
     {       
         try
         {
             const query = filters ? buildMovieQuery(filters) : {};  
             const cursor = movies.find(query);
-            const displayCursor = cursor.limit(moviesPerPage).skip(moviesPerPage * page);
+            const displayCursor = cursor.limit(entriesPerPage).skip(entriesPerPage * page);
 
             const list = await displayCursor.toArray();
             const count = await cursor.count();

@@ -1,18 +1,19 @@
 import TheatersDAO from '../../dao/theaters.dao.js';
+import extractParams from '../util/param.extractor.js';
 
 export default class TheatersController
 {
     static async getTheaters(req, res, next)
     {
-        const queryParams = extractParams(req.query);
+        const reqParams = extractParams(buildTheaterFilters, req.query);
 
-        TheatersDAO.getTheaters(queryParams)
+        TheatersDAO.getTheaters(reqParams)
         .then(result => {
             res.json({
                 theaters: result.theaterList,
-                page: queryParams.page,
-                filters: queryParams.filters,
-                entries_per_page: queryParams.theatersPerPage,
+                page: reqParams.page,
+                filters: reqParams.filters,
+                entries_per_page: reqParams.entriesPerPage,
                 total_results: result.totalNumTheaters
             });
         })
@@ -33,14 +34,6 @@ export default class TheatersController
         .catch(next);
     }
 }
-
-const extractParams = query => {
-    const filters = buildTheaterFilters(query);  
-    const theatersPerPage = query.theatersPerPage ? parseInt(query.theatersPerPage, 10) : 20;
-    const page = query.page ? parseInt(query.page, 10) : 0;
-
-    return { filters, theatersPerPage, page };
-};
 
 const buildTheaterFilters = query => {
     let filters = {};

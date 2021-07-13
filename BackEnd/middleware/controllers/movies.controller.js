@@ -1,18 +1,19 @@
 import MoviesDAO from '../../dao/movies.dao.js';
+import extractParams from '../util/param.extractor.js';
 
 export default class MoviesController
 {
     static async getMovies(req, res, next)
     {   
-        const queryParams = extractParams(req.query);
+        const reqParams = extractParams(buildMovieFilters, req.query);
 
-        MoviesDAO.getMovies(queryParams)
+        MoviesDAO.getMovies(reqParams)
         .then(result => {
             res.json({
                 movies: result.movieList,
-                page: queryParams.page,
-                filters: queryParams.filters,
-                entries_per_page: queryParams.moviesPerPage,
+                page: reqParams.page,
+                filters: reqParams.filters,
+                entries_per_page: reqParams.entriesPerPage,
                 total_results: result.totalNumMovies
             });
         })
@@ -33,15 +34,6 @@ export default class MoviesController
         .catch(next);
     }
 }
-
-const extractParams = query => {
-
-    const filters = buildMovieFilters(query);  
-    const moviesPerPage = query.moviesPerPage ? parseInt(query.moviesPerPage, 10) : 20;
-    const page = query.page ? parseInt(query.page, 10) : 0;
-    
-    return { filters, moviesPerPage, page };
-};
 
 const buildMovieFilters = query => {
     let filters = {};
