@@ -47,7 +47,7 @@ const buildTheaterQuery = filters => {
     let query = {};
 
     if (filters.city)
-        query = { 'location.address.city': { $eq: filters.city }};
+        query = { 'location.address.city': filters.city };
 
     return query;
 };
