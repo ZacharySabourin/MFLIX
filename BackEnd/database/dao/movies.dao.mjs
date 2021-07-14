@@ -46,7 +46,7 @@ export default class MoviesDAO
     {
         try
         {
-            return await movies.findOne({ _id: new ObjectID(id) });
+            return await movies.aggregate(buildMoviePipeline(id)).next();
         }
         catch(err)
         {
@@ -54,6 +54,37 @@ export default class MoviesDAO
         }  
     }
 }
+
+const buildMoviePipeline = id => {
+    return [
+        {
+            $match: { _id: new ObjectID(id) }
+        },
+        {
+            $lookup: {
+                from: 'comments',
+                let: {
+                    m_id: '$_id'
+                },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: [ '$movie_id', '$$m_id']
+                            }
+                        }
+                    },
+                    {
+                        $sort: {
+                            date: -1
+                        }
+                    }
+                ],
+                as: 'comments'
+            }
+        }
+    ];
+};
 
 const buildMovieQuery = filters => {
 
