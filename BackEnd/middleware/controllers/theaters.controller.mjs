@@ -13,7 +13,7 @@ export default class TheatersController
                 theaters: result.theaterList,
                 page: reqParams.page,
                 filters: reqParams.filters,
-                entries_per_page: reqParams.entriesPerPage,
+                page_size: reqParams.page_size,
                 total_results: result.totalNumTheaters
             });
         })

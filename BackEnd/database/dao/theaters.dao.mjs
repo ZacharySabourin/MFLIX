@@ -20,13 +20,13 @@ export default class TheatersDAO
         }
     }
 
-    static async getTheaters({ filters = null, page = 0, entriesPerPage = 20 } = {})
+    static async getTheaters({ filters = null, page = 0, page_size = 20 } = {})
     {
         try
         {
             const query = filters ? buildTheaterQuery(filters) : {};
             const cursor = theaters.find(query);
-            const displayCursor = cursor.limit(entriesPerPage).skip(entriesPerPage * page);
+            const displayCursor = cursor.limit(page_size).skip(page_size * page);
 
             const list = await displayCursor.toArray();
             const count = await cursor.count();
