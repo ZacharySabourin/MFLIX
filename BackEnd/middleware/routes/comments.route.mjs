@@ -1,5 +1,5 @@
-import { Router } from "express";
-import CommentsCtrl from "../controllers/comments.controller.mjs";
+import { Router } from 'express';
+import CommentsCtrl from '../controllers/comments.controller.mjs';
 
 const router = Router();
 

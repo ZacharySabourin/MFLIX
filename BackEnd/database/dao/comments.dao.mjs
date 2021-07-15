@@ -38,13 +38,41 @@ export default class CommentsDAO
         }
     }
 
-    static async updateComment()
+    static async updateComment({ id, email, text, date } = {})
     {
-        
+        try
+        {
+            return await comments.updateOne(
+                {
+                    _id: ObjectID(id),
+                    email: email
+                },
+                {
+                    $set: {
+                        text: text,
+                        date: date
+                    }
+                }
+            );
+        }
+        catch (err)
+        {
+            throw err;
+        }
     }
 
-    static async deleteComment()
+    static async deleteComment(id, email)
     {
-        
+        try
+        {
+            return await comments.deleteOne({
+                _id: id,
+                email: email
+            });
+        }
+        catch(err)
+        {
+            throw err;
+        }
     }
 }

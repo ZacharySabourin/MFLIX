@@ -1,39 +1,53 @@
-import CommentsDAO from "../../database/dao/comments.dao.mjs";
-import isValidCommentBody from "../util/request.validation.mjs";
+import CommentsDAO from '../../database/dao/comments.dao.mjs';
+import { isValidPostCommentBody, isValidPutCommentBody, isValidDeleteCommentBody } from '../util/request.validation.mjs';
+import { buildPostComment, buildPutComment, buildDeleteComment } from '../util/comments.builder.mjs'
 
 export default class CommentsController
 {
     static async createComment(req, res, next)
     {
-        if(!isValidCommentBody(req.body))
-            res.status(400).json({error: 'Invalid body field(s)'});
+        if(!isValidPostCommentBody(req.body))
+            res.status(400).json({ error: 'Invalid body field(s)' });
 
-        const comment = buildComment(req.body);
+        const comment = buildPostComment(req.body);
 
         CommentsDAO.createComment(comment)
         .then(() => {
-            res.status(200).json(comment);
+            res.status(201).json(comment);
         })
         .catch(next);
     }
 
     static async updateComment(req, res, next)
     {
+        if(!isValidPutCommentBody(req.body))
+            res.status(400).json({ error: 'Invalid body field(s)' });
 
+        const comment = buildPutComment(req.body);
+
+        CommentsDAO.updateComment(comment)
+        .then(comment => {
+            if(comment.error)
+                res.status(400).json(comment.error);
+            else if(comment.modifiedCount === 0)
+                res.status(500).json({ error: 'Unable to update comment - user may not be original poster'});
+            else
+                res.status(200).json({ status: 'success'});
+        })
+        .catch(next);
     }
 
     static async deleteComment(req, res, next)
     {
+        if(!isValidDeleteCommentBody(body))
+            res.status(400).json({ error: 'Invalid body field(s)' });
 
+        const comment = buildDeleteComment(req.body);
+
+        CommentsDAO.deleteComment(comment)
+        .then(() => {
+            res.json({ status: 'success' });
+        })
+        .catch(next);
     }
 }
-
-const buildComment = body => {
-    const { name } = body;
-    const { email } = body;
-    const { movie_id } = body;
-    const { text } = body;
-    const date = new Date();
-    
-    return { name, email, movie_id, text, date };
-};
