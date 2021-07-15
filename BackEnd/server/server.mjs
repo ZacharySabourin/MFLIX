@@ -4,7 +4,7 @@ import helmet from 'helmet';
 
 import movieRoutes from '../middleware/routes/movies.route.mjs';
 import theaterRoutes from '../middleware/routes/theaters.route.mjs';
-import reviewsRoutes from '../middleware/routes/reviews.route.mjs';
+import commentsRoutes from '../middleware/routes/comments.route.mjs';
 
 import { badRoute, logError, respondError } from '../middleware/error/error.handler.mjs';
 
@@ -16,7 +16,7 @@ app.use(helmet());
 
 app.use('/api/v1/movies', movieRoutes);
 app.use('/api/v1/theaters', theaterRoutes);
-app.use('/api/v1/reviews', reviewsRoutes);
+app.use('/api/v1/comments', commentsRoutes);
 
 app.use('*', badRoute);
 

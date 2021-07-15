@@ -1,7 +1,7 @@
 import mongodb from 'mongodb';
 import MoviesDAO from '../database/dao/movies.dao.mjs';
 import TheatersDAO from '../database/dao/theaters.dao.mjs';
-import ReviewsDAO from './dao/reviews.dao.mjs';
+import CommentsDAO from './dao/comments.dao.mjs';
 
 const MongoClient = mongodb.MongoClient;
 const options = {
@@ -22,7 +22,7 @@ export default class DatabaseClient
         .then(async client => {
             await MoviesDAO.injectDB(client);
             await TheatersDAO.injectDB(client);
-            await ReviewsDAO.injectDB(client);
+            await CommentsDAO.injectDB(client);
         });
     }
 };
