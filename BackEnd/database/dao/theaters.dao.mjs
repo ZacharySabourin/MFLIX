@@ -1,4 +1,5 @@
 import mongodb from 'mongodb';
+import { buildTheaterQuery } from '../util/query.builder.mjs';
 
 const ObjectID = mongodb.ObjectID;
 let theaters;
@@ -54,15 +55,3 @@ export default class TheatersDAO
         }
     }
 }
-
-const buildTheaterQuery = filters => {
-
-    let query = {};
-
-    if (filters.city)
-        query['location.address.city'] = filters.city;
-    if(filters.state)
-        query['location.address.state'] = filters.state;
-
-    return query;
-};

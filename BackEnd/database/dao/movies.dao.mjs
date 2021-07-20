@@ -1,4 +1,5 @@
 import mongodb from 'mongodb'
+import { buildMovieQuery } from '../util/query.builder.mjs';
 
 const ObjectID = mongodb.ObjectID;
 let movies;
@@ -84,16 +85,4 @@ const buildMoviePipeline = id => {
             }
         }
     ];
-};
-
-const buildMovieQuery = filters => {
-
-    let query = {};
-
-    if (filters.year)
-        query.year = filters.year;
-    if (filters.text)
-        query['$text'] = { $search: filters.text };
-
-    return query;
 };

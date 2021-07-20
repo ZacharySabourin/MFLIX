@@ -1,5 +1,6 @@
 import TheatersDAO from '../../database/dao/theaters.dao.mjs';
 import extractParams from '../util/param.extractor.mjs';
+import { buildTheaterFilters } from '../util/filters.builder.mjs';
 
 export default class TheatersController
 {
@@ -34,14 +35,3 @@ export default class TheatersController
         .catch(next);
     }
 }
-
-const buildTheaterFilters = query => {
-    let filters = {};
-
-    if(query.city)
-        filters.city = query.city;
-    if(query.state)
-        filters.state = query.state;
-        
-    return filters;
-};

@@ -1,5 +1,6 @@
 import MoviesDAO from '../../database/dao/movies.dao.mjs';
 import extractParams from '../util/param.extractor.mjs';
+import { buildMovieFilters } from '../util/filters.builder.mjs';
 
 export default class MoviesController
 {
@@ -34,14 +35,3 @@ export default class MoviesController
         .catch(next);
     }
 }
-
-const buildMovieFilters = query => {
-    let filters = {};
-
-    if(query.text)
-        filters.text = query.text;
-    if(query.year)
-        filters.year = parseInt(query.year, 10);
-
-    return filters;
-};

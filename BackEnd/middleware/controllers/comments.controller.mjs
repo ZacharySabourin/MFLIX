@@ -13,7 +13,7 @@ export default class CommentsController
 
         CommentsDAO.createComment(comment)
         .then(() => {
-            res.status(201).json(comment);
+            res.status(201).json({ comment, Location: '/api/v1/comments/' + comment._id });
         })
         .catch(next);
     }
@@ -29,10 +29,10 @@ export default class CommentsController
         .then(comment => {
             if(comment.error)
                 res.status(400).json(comment.error);
-            else if(comment.modifiedCount === 0)
+            if(comment.modifiedCount === 0)
                 res.status(500).json({ error: 'Unable to update comment - user may not be original poster'});
-            else
-                res.status(200).json({ status: 'success'});
+                          
+            res.status(200).json({ status: 'success'});
         })
         .catch(next);
     }
